@@ -52,25 +52,42 @@ int main() {
 				if(keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
 					window->close();
 				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::W) {
-					sprite.setTextureRect(dir[up]);
-					sprite.move({0,-16});
-				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::S) {
-					sprite.setTextureRect(dir[down]);
-					sprite.move({0,16});
-				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::D) {
-					sprite.setTextureRect(dir[right]);
-					sprite.move({16,0});
-				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::A) {
-					sprite.setTextureRect(dir[left]);
-					sprite.move({-16,0});
-				}
+				// else if (keyPressed->scancode == sf::Keyboard::Scancode::W) {
+				// 	sprite.setTextureRect(dir[up]);
+				// 	sprite.move({0,-16});
+				// }
+				// else if (keyPressed->scancode == sf::Keyboard::Scancode::S) {
+				// 	sprite.setTextureRect(dir[down]);
+				// 	sprite.move({0,16});
+				// }
+				// else if (keyPressed->scancode == sf::Keyboard::Scancode::D) {
+				// 	sprite.setTextureRect(dir[right]);
+				// 	sprite.move({16,0});
+				// }
+				// else if (keyPressed->scancode == sf::Keyboard::Scancode::A) {
+				// 	sprite.setTextureRect(dir[left]);
+				// 	sprite.move({-16,0});
+				// }
 			}
 		}
 
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)){
+			sprite.setTextureRect(dir[up]);
+			sprite.move({0,-1});
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S)) {
+			sprite.setTextureRect(dir[down]);
+			sprite.move({0,1});
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D)) {
+			sprite.setTextureRect(dir[right]);
+			sprite.move({1,0});
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A)) {
+			sprite.setTextureRect(dir[left]);
+			sprite.move({-1,0});
+		}
 
 		//render
 		window->clear();
