@@ -17,86 +17,41 @@ int main() {
 	unsigned  width = 640;
 	unsigned  height = 360;
 	sf::RenderWindow window(sf::VideoMode({width, height}), "Title");
-	window->setFramerateLimit(100);
+	window.setFramerateLimit(100);
 
-	sf::Texture texture;
 
-	if(!texture.loadFromFile("Sprites/ExampleSprite.png")) {
-
-		std::cerr << "ERROR::COULD NOT LOAD FILE::Sprites/ExampleSprite.png" << std::endl;
-		return -1;
-	}
-	sf::Sprite sprite(texture);
-
-	sf::IntRect dir[4];
-
-	for(int i = 0; i < 4; i++){
-
-		dir[i] = sf::IntRect({ {32* i, 0}, {32,32} });
-
-	}
 
 	sprite.setTextureRect(dir[down]);
 	sprite.setOrigin({16,16});
 	sprite.setPosition({width / 2.0f, height / 2.0f});
 
-	while(window->isOpen()){
+	while(window.isOpen()){
 
-		while(const std::optional event = window->pollEvent()) {
+		while(const std::optional event = window.pollEvent()) {
 			if(event->is<sf::Event::Closed>()){
 
-				window->close();
+				window.close();
 			}
 			else if(const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()){
 
 				if(keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
-					window->close();
+					window.close();
 				}
-				// else if (keyPressed->scancode == sf::Keyboard::Scancode::W) {
-				// 	sprite.setTextureRect(dir[up]);
-				// 	sprite.move({0,-16});
-				// }
-				// else if (keyPressed->scancode == sf::Keyboard::Scancode::S) {
-				// 	sprite.setTextureRect(dir[down]);
-				// 	sprite.move({0,16});
-				// }
-				// else if (keyPressed->scancode == sf::Keyboard::Scancode::D) {
-				// 	sprite.setTextureRect(dir[right]);
-				// 	sprite.move({16,0});
-				// }
-				// else if (keyPressed->scancode == sf::Keyboard::Scancode::A) {
-				// 	sprite.setTextureRect(dir[left]);
-				// 	sprite.move({-16,0});
-				// }
+
 			}
 		}
 
 
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)){
-			sprite.setTextureRect(dir[up]);
-			sprite.move({0,-1});
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S)) {
-			sprite.setTextureRect(dir[down]);
-			sprite.move({0,1});
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D)) {
-			sprite.setTextureRect(dir[right]);
-			sprite.move({1,0});
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A)) {
-			sprite.setTextureRect(dir[left]);
-			sprite.move({-1,0});
-		}
+
 
 		//render
-		window->clear();
+		window.clear();
 
 		//drawing
-		window->draw(sprite);
 
-		window->display();
+
+		window.display();
 	}
 
 
