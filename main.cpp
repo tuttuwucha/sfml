@@ -16,7 +16,7 @@ enum directions {down,right,up,left};
 int main() {
 	unsigned  width = 640;
 	unsigned  height = 360;
-	sf::RenderWindow * window = new sf::RenderWindow(sf::VideoMode({width, height}), "Title");
+	sf::RenderWindow window(sf::VideoMode({width, height}), "Title");
 	window->setFramerateLimit(100);
 
 	sf::Texture texture;
@@ -72,6 +72,7 @@ int main() {
 		}
 
 
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)){
 			sprite.setTextureRect(dir[up]);
 			sprite.move({0,-1});
@@ -98,6 +99,6 @@ int main() {
 		window->display();
 	}
 
-	delete window;
+
 	return 0;
 }
