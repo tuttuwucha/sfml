@@ -1,29 +1,129 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/ConvexShape.hpp>
+#include <SFML/Graphics/PrimitiveType.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include <SFML/System/Angle.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <iostream>
 
 
-enum directions {down,right,up,left};
+sf::Color HSVToRGB(float h, float s, float v) {
+
+	float hPrime = h / 60.0f;
+	unsigned int hIndex = static_cast<unsigned int>(hPrime) % 6;
+
+	float chroma = s * v;
+	float min = (v - chroma);
+	float x = chroma * (1.0f - abs(fmod(hPrime, 2.0f) - 1.0f));
+
+	float outRGB[6][3] = {
+
+		{chroma,x, 0.0f},
+		{x,chroma, 0.0f},
+		{0.0f,chroma,x},
+		{0.0f,x,chroma},
+		{x,0.0f,chroma},
+		{chroma,0.0f,x}
+	};
+	float rF = (outRGB[hIndex][0] + min);
+	float gF = (outRGB[hIndex][1] + min);
+	float bF = (outRGB[hIndex][2] + min);
+	rF *= 255.0f;
+	gF *= 255.0f;
+	bF *= 255.0f;
+
+	std::uint8_t rI = std::uint8_t(rF);
+	std::uint8_t gI = std::uint8_t(gF);
+	std::uint8_t bI = std::uint8_t(bF);
+
+	return sf::Color(rI, gI, bI);
+}
 int main() {
 	unsigned  width = 640;
 	unsigned  height = 360;
 	sf::RenderWindow window(sf::VideoMode({width, height}), "Title");
 	window.setFramerateLimit(100);
 
+	int n = 24;
+
+	sf::VertexArray lines;
+	lines.setPrimitiveType(sf::PrimitiveType::Lines);
+	lines.resize(n);
+
+	sf::VertexArray lineStrip;
+	lineStrip.setPrimitiveType(sf::PrimitiveType::LineStrip);
+	lineStrip.resize(n);
+
+	sf::VertexArray triangles;
+	triangles.setPrimitiveType(sf::PrimitiveType::Triangles);
+	triangles.resize(width * height * 6);
+
+	float size = 48.0f;
+
+	// sf::Vector2f v0 = {0.0f,0.0f};
+	// sf::Vector2f v1 = {size, 0.0f};
+	// sf::Vector2f v2 = {0.0f, size};
+	// sf::Vector2f v3 = {size, size};
+ //
+	// triangles[0].position = v0;
+	// triangles[1].position = v1;
+	// triangles[2].position = v2;
+	// triangles[3].position = v3;
+	// triangles[4].position = v2;
+	// triangles[5].position = v1;
+
+	for (int i = 0; i < width ; i++) {
+
+		// triangles[i].position += {width / 1.5f, height / 1.5f};
+		for(int j = 0; j < height; j++){
+
+			const int index = 6 * (i * height + j);
+
+			sf::Vector2f v0 = {size * i, size * j};
+			sf::Vector2f v1 = {size * i, size * (j+1)};
+			sf::Vector2f v2 = {size * (i+1), size * j};
+			sf::Vector2f v3 = {size * (i+1), size * (j+1)};
+
+			triangles[index + 0].position = v0;
+			triangles[index + 1].position = v1;
+			triangles[index + 2].position = v2;
+
+			triangles[index + 3].position = v3;
+			triangles[index + 4].position = v2;
+			triangles[index + 5].position = v1;
 
 
-	sprite.setTextureRect(dir[down]);
-	sprite.setOrigin({16,16});
-	sprite.setPosition({width / 2.0f, height / 2.0f});
+			triangles[index + 0].color = HSVToRGB(0.0f, 1.0f, 1.0f);
+			triangles[index + 1].color = HSVToRGB(60.0f, 1.0f, 1.0f);
+			triangles[index + 2].color = HSVToRGB(120.0f, 1.0f, 1.0f);
+			triangles[index + 3].color = HSVToRGB(180.0f, 1.0f, 1.0f);
+			triangles[index + 4].color = HSVToRGB(240.0f, 1.0f, 1.0f);
+			triangles[index + 5].color = HSVToRGB(300.0f, 1.0f, 1.0f);
+		}
+}
+
+	for(int i = 0; i < n; i++){
+
+		sf::Vector2f pos = {float(i*cos(i)), float(i * sin(i)) };
+		float hue = i * (360.0f / n);
+		lines[i].position = pos;
+		lines[i].position += {width / 4.0f, height / 4.0f};
+		lines[i].color = HSVToRGB(hue, 1.0f ,1.0f );
+
+		lineStrip[i].position = pos;
+		lineStrip[i].position += {width / 2.0f, height / 2.0f};
+		lineStrip[i].color = HSVToRGB(hue, 1.0f ,1.0f );
+	}
+
+
 
 	while(window.isOpen()){
 
@@ -41,7 +141,7 @@ int main() {
 			}
 		}
 
-		//я тут ничего не поменял... я просто хочу чтобы за сегодня был коммит только тссс...
+
 
 
 
@@ -49,6 +149,9 @@ int main() {
 		window.clear();
 
 		//drawing
+		window.draw(lines);
+		window.draw(lineStrip);
+		window.draw(triangles);
 
 
 		window.display();
