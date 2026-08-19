@@ -15,6 +15,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <chrono>
 
 
 sf::Color HSVToRGB(float h, float s, float v) {
