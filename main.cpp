@@ -23,9 +23,9 @@
 
 
 int main() {
-	unsigned  width = 1920;
-	unsigned  height = 1080;
-	sf::RenderWindow window(sf::VideoMode({width, height}), "Title");
+	unsigned  width = 500;
+	unsigned  height = 800;
+	sf::RenderWindow window(sf::VideoMode({width, height}), "Vertical Scrolling Rhythm Game ");
 	window.setFramerateLimit(100);
 
 
