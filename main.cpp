@@ -25,7 +25,7 @@
 int main() {
 	unsigned  width = 1920;
 	unsigned  height = 1080;
-	sf::RenderWindow window(sf::VideoMode({width, height}), "Title");
+	sf::RenderWindow window(sf::VideoMode({width, height}), "Titl");
 	window.setFramerateLimit(100);
 
 
